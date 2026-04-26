@@ -5,8 +5,8 @@ import type {
   CfgParseTreeNode,
   CfgProduction,
   CfgSymbol
-} from "./formalTypes";
-import { FormalDefinitionError } from "./formalTypes";
+} from "./formalTypes.js";
+import { FormalDefinitionError } from "./formalTypes.js";
 
 interface RawProduction {
   head: string;

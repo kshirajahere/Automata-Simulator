@@ -1,3 +1,3 @@
-import { handleSimulate } from "./_shared";
+import { handleSimulate } from "./_shared.js";
 
 export default handleSimulate;

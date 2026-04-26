@@ -1,3 +1,3 @@
-import { handleSimulateBatch } from "./_shared";
+import { handleSimulateBatch } from "./_shared.js";
 
 export default handleSimulateBatch;

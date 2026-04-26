@@ -326,9 +326,9 @@ function isJsonObject(value: unknown): value is JsonObject {
 
 async function loadAutomataRuntime() {
   const [pipelineModule, parserModule, formalTypesModule] = await Promise.all([
-    import("../src/automata/pipeline"),
-    import("../src/automata/parser"),
-    import("../src/automata/formalTypes")
+    import("../src/automata/pipeline.js"),
+    import("../src/automata/parser.js"),
+    import("../src/automata/formalTypes.js")
   ]);
 
   return {

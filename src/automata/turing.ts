@@ -3,8 +3,8 @@ import type {
   TuringSimulationResult,
   TuringTapeCell,
   TuringTransition
-} from "./formalTypes";
-import { FormalDefinitionError } from "./formalTypes";
+} from "./formalTypes.js";
+import { FormalDefinitionError } from "./formalTypes.js";
 
 const MAX_TURING_STEPS = 180;
 const WINDOW_RADIUS = 5;

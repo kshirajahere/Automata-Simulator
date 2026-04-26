@@ -1,4 +1,4 @@
-import { ensureCompleteDfa } from "./subset";
+import { ensureCompleteDfa } from "./subset.js";
 import type { ConversionInsights, Dfa, LanguageExample, RegexComparisonResult } from "./types";
 
 interface SearchNode {

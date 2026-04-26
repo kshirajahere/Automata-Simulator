@@ -3,8 +3,8 @@ import type {
   PdaSimulationResult,
   PdaTraceStep,
   PdaTransition
-} from "./formalTypes";
-import { FormalDefinitionError } from "./formalTypes";
+} from "./formalTypes.js";
+import { FormalDefinitionError } from "./formalTypes.js";
 
 interface PdaQueueItem {
   state: string;

@@ -1,3 +1,3 @@
-import { handleCompare } from "./_shared";
+import { handleCompare } from "./_shared.js";
 
 export default handleCompare;

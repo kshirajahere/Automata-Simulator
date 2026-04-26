@@ -1,3 +1,3 @@
-import { handleCfgExamples } from "../_shared";
+import { handleCfgExamples } from "../_shared.js";
 
 export default handleCfgExamples;

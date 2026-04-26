@@ -1,6 +1,6 @@
 import cors from "cors";
 import express from "express";
-import { FormalDefinitionError } from "./automata/formalTypes";
+import { FormalDefinitionError } from "./automata/formalTypes.js";
 import {
   cfgExamples,
   compareRegexes,
@@ -13,8 +13,8 @@ import {
   simulateRegexBatch,
   simulateTuringInput,
   turingExamples
-} from "./automata/pipeline";
-import { RegexSyntaxError } from "./automata/parser";
+} from "./automata/pipeline.js";
+import { RegexSyntaxError } from "./automata/parser.js";
 
 const app = express();
 

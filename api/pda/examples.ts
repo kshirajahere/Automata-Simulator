@@ -1,3 +1,3 @@
-import { handlePdaExamples } from "../_shared";
+import { handlePdaExamples } from "../_shared.js";
 
 export default handlePdaExamples;

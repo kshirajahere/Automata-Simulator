@@ -1,13 +1,13 @@
-import { buildConversionInsights, compareDfaLanguages } from "./analysis";
-import { parseCfg } from "./cfg";
-import { cfgExamples, pdaExamples, turingExamples } from "./formalExamples";
-import { minimizeDfa } from "./minimize";
-import { parseRegex } from "./parser";
-import { simulatePda } from "./pda";
-import { simulateDfa } from "./simulate";
-import { buildDfaFromNfa, ensureCompleteDfa } from "./subset";
-import { buildThompsonNfa } from "./thompson";
-import { simulateTuringMachine } from "./turing";
+import { buildConversionInsights, compareDfaLanguages } from "./analysis.js";
+import { parseCfg } from "./cfg.js";
+import { cfgExamples, pdaExamples, turingExamples } from "./formalExamples.js";
+import { minimizeDfa } from "./minimize.js";
+import { parseRegex } from "./parser.js";
+import { simulatePda } from "./pda.js";
+import { simulateDfa } from "./simulate.js";
+import { buildDfaFromNfa, ensureCompleteDfa } from "./subset.js";
+import { buildThompsonNfa } from "./thompson.js";
+import { simulateTuringMachine } from "./turing.js";
 import type { CfgParseResult, PdaSimulationResult, TuringSimulationResult } from "./formalTypes";
 import type {
   BatchSimulationResult,

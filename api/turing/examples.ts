@@ -1,3 +1,3 @@
-import { handleTuringExamples } from "../_shared";
+import { handleTuringExamples } from "../_shared.js";
 
 export default handleTuringExamples;
