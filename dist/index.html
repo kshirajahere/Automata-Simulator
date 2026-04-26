@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Automata Lab Studio</title>
+    <script type="module" crossorigin src="/assets/index-CFJPt_lU.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-84BWi41H.css">
+  </head>
+  <body>
+    <main id="app" class="app-shell">
+      <header class="app-header">
+        <div class="title-block">
+          <p class="eyebrow">Formal Languages Studio</p>
+          <h1>Automata Lab</h1>
+          <p class="title-copy">
+            Regex automata, CFG parse trees, PDAs, and Turing machines in one teaching surface.
+          </p>
+        </div>
+        <div class="header-tools">
+          <p id="status-line" class="status-pill">Ready.</p>
+          <div class="header-actions">
+            <button id="export-svg" type="button">Export SVG</button>
+            <button id="export-png" type="button">Export PNG</button>
+            <button id="export-json" type="button">Export JSON</button>
+            <button id="copy-report" type="button">Copy Report</button>
+          </div>
+        </div>
+      </header>
+
+      <nav class="tab-strip" aria-label="Lab modules">
+        <button class="tab-btn active" data-tab="regex" type="button">Regex Automata</button>
+        <button class="tab-btn" data-tab="cfg" type="button">CFG Parse Trees</button>
+        <button class="tab-btn" data-tab="pda" type="button">Pushdown Automata</button>
+        <button class="tab-btn" data-tab="tm" type="button">Turing Machine</button>
+      </nav>
+
+      <section class="hero-ribbon">
+        <div class="ribbon-card">
+          <span class="ribbon-label">Current focus</span>
+          <strong>Interactive computation traces</strong>
+        </div>
+        <div class="ribbon-card">
+          <span class="ribbon-label">Exports</span>
+          <strong>Styled SVG, PNG, JSON, and summary report</strong>
+        </div>
+        <div class="ribbon-card">
+          <span class="ribbon-label">Teaching value</span>
+          <strong>Construction, derivation, stack, and tape views</strong>
+        </div>
+      </section>
+
+      <section class="lab-stage active" data-stage="regex">
+        <div class="workspace-grid">
+          <aside class="workspace-sidebar">
+            <section class="sidebar-panel">
+              <div class="panel-heading">
+                <h2>Regex Builder</h2>
+                <p>Compile a regular expression into NFA, DFA, and minimized DFA.</p>
+              </div>
+              <div class="control-stack">
+                <label class="field-label" for="regex-input">Regex</label>
+                <div class="inline-field">
+                  <input type="text" id="regex-input" value="(a|b)*abb" placeholder="e.g. (a|b)*abb" />
+                  <button id="btn-compile" type="button">Compile</button>
+                </div>
+              </div>
+              <div class="syntax-grid">
+                <code>ab</code><span>Concatenation</span>
+                <code>a|b</code><span>Alternation</span>
+                <code>a*</code><span>Kleene star</span>
+                <code>a+</code><span>One or more</span>
+                <code>a?</code><span>Optional</span>
+                <code>(a)</code><span>Grouping</span>
+                <code>[a-z]</code><span>Character range</span>
+                <code>\d \w \s</code><span>Shorthand classes</span>
+                <code>&epsilon;</code><span>Epsilon</span>
+                <code>&empty;</code><span>Empty language</span>
+              </div>
+            </section>
+
+            <section class="sidebar-panel">
+              <div class="panel-heading">
+                <h2>Examples</h2>
+                <p>Preset patterns with meaningful automata structure.</p>
+              </div>
+              <div id="regex-example-list" class="example-list"></div>
+            </section>
+
+            <section class="sidebar-panel">
+              <div class="panel-heading">
+                <h2>Simulation</h2>
+                <p>Walk the compiled DFA over a candidate string.</p>
+              </div>
+              <div class="control-stack">
+                <label class="field-label" for="sim-input">Input</label>
+                <div class="inline-field triple">
+                  <input type="text" id="sim-input" value="aaabb" placeholder="Input string" />
+                  <button id="btn-sim-step" type="button">Step</button>
+                  <button id="btn-sim-run" type="button">Run</button>
+                </div>
+              </div>
+              <div id="sim-output" class="text-surface"></div>
+            </section>
+
+            <section class="sidebar-panel">
+              <div class="panel-heading">
+                <h2>Equivalence Lab</h2>
+                <p>Compare two regexes for language equivalence.</p>
+              </div>
+              <div class="control-stack">
+                <label class="field-label" for="compare-regex-input">Comparison regex</label>
+                <div class="inline-field">
+                  <input
+                    type="text"
+                    id="compare-regex-input"
+                    value="(a|b)*abb"
+                    placeholder="Compare against another regex"
+                  />
+                  <button id="btn-compare" type="button">Compare</button>
+                </div>
+              </div>
+              <div id="compare-output" class="text-surface"></div>
+            </section>
+
+            <section class="sidebar-panel">
+              <div class="panel-heading">
+                <h2>Batch Evaluation</h2>
+                <p>Score many strings in one run.</p>
+              </div>
+              <label class="field-label" for="batch-inputs">Inputs</label>
+              <textarea id="batch-inputs" class="definition-editor" spellcheck="false">abb
+aaabb
+aabab
+babb
+</textarea>
+              <button id="btn-batch-run" type="button">Run Batch</button>
+            </section>
+          </aside>
+
+          <div class="workspace-main">
+            <section class="metric-row">
+              <article class="metric-card">
+                <span class="metric-label">Alphabet</span>
+                <strong id="metric-regex-alphabet">-</strong>
+              </article>
+              <article class="metric-card">
+                <span class="metric-label">NFA states</span>
+                <strong id="metric-nfa-states">-</strong>
+              </article>
+              <article class="metric-card">
+                <span class="metric-label">DFA states</span>
+                <strong id="metric-dfa-states">-</strong>
+              </article>
+              <article class="metric-card">
+                <span class="metric-label">Minimized</span>
+                <strong id="metric-min-states">-</strong>
+              </article>
+              <article class="metric-card">
+                <span class="metric-label">Subset steps</span>
+                <strong id="metric-subset-steps">-</strong>
+              </article>
+            </section>
+
+            <section class="stage-grid two-up">
+              <article class="surface-panel">
+                <header class="surface-header">
+                  <div>
+                    <p class="surface-kicker">Thompson construction</p>
+                    <h3>Regex AST</h3>
+                  </div>
+                </header>
+                <div id="ast-canvas" class="surface-body ast-surface"></div>
+              </article>
+
+              <article class="surface-panel">
+                <header class="surface-header">
+                  <div>
+                    <p class="surface-kicker">Epsilon NFA</p>
+                    <h3>Construction graph</h3>
+                  </div>
+                </header>
+                <div id="nfa-canvas" class="surface-body graph-surface"></div>
+              </article>
+            </section>
+
+            <section class="stage-grid two-up">
+              <article class="surface-panel">
+                <header class="surface-header">
+                  <div>
+                    <p class="surface-kicker">Subset construction</p>
+                    <h3>DFA graph</h3>
+                  </div>
+                </header>
+                <div id="dfa-canvas" class="surface-body graph-surface"></div>
+              </article>
+
+              <article class="surface-panel">
+                <header class="surface-header">
+                  <div>
+                    <p class="surface-kicker">Trace</p>
+                    <h3>Construction stepper</h3>
+                  </div>
+                </header>
+                <div id="dfa-stepper" class="surface-body data-surface"></div>
+              </article>
+            </section>
+
+            <section class="stage-grid two-up">
+              <article class="surface-panel">
+                <header class="surface-header">
+                  <div>
+                    <p class="surface-kicker">Partition refinement</p>
+                    <h3>Minimized DFA</h3>
+                  </div>
+                </header>
+                <div id="min-dfa-canvas" class="surface-body graph-surface"></div>
+              </article>
+
+              <article class="surface-panel">
+                <header class="surface-header">
+                  <div>
+                    <p class="surface-kicker">Merge history</p>
+                    <h3>Partitions</h3>
+                  </div>
+                </header>
+                <div id="dfa-partitions" class="surface-body data-surface"></div>
+              </article>
+            </section>
+
+            <section class="stage-grid three-up">
+              <article class="surface-panel">
+                <header class="surface-header">
+                  <div>
+                    <p class="surface-kicker">Language probes</p>
+                    <h3>Insights</h3>
+                  </div>
+                </header>
+                <div id="language-insights" class="surface-body data-surface"></div>
+              </article>
+
+              <article class="surface-panel">
+                <header class="surface-header">
+                  <div>
+                    <p class="surface-kicker">Equivalence</p>
+                    <h3>Comparison output</h3>
+                  </div>
+                </header>
+                <div id="compare-output-clone" class="surface-body data-surface mirror-surface"></div>
+              </article>
+
+              <article class="surface-panel">
+                <header class="surface-header">
+                  <div>
+                    <p class="surface-kicker">Experiment set</p>
+                    <h3>Batch results</h3>
+                  </div>
+                </header>
+                <div id="batch-output" class="surface-body data-surface"></div>
+              </article>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <section class="lab-stage" data-stage="cfg">
+        <div class="workspace-grid">
+          <aside class="workspace-sidebar">
+            <section class="sidebar-panel">
+              <div class="panel-heading">
+                <h2>Grammar Editor</h2>
+                <p>Use `start: S`, one production per line, and `ε` for epsilon.</p>
+              </div>
+              <label class="field-label" for="cfg-input">Input</label>
+              <div class="inline-field">
+                <input type="text" id="cfg-input" value="(()())" placeholder="Tokens with spaces or raw characters" />
+                <button id="btn-cfg-parse" type="button">Parse</button>
+              </div>
+              <label class="field-label" for="cfg-grammar">Grammar</label>
+              <textarea id="cfg-grammar" class="definition-editor" spellcheck="false"></textarea>
+            </section>
+
+            <section class="sidebar-panel">
+              <div class="panel-heading">
+                <h2>Examples</h2>
+                <p>Preset CFGs tuned for the parse-tree explorer.</p>
+              </div>
+              <div id="cfg-example-list" class="example-list"></div>
+            </section>
+          </aside>
+
+          <div class="workspace-main">
+            <section class="metric-row">
+              <article class="metric-card">
+                <span class="metric-label">Status</span>
+                <strong id="cfg-status-metric">-</strong>
+              </article>
+              <article class="metric-card">
+                <span class="metric-label">Ambiguity</span>
+                <strong id="cfg-ambiguity-metric">-</strong>
+              </article>
+              <article class="metric-card">
+                <span class="metric-label">Parses found</span>
+                <strong id="cfg-parse-count-metric">-</strong>
+              </article>
+              <article class="metric-card">
+                <span class="metric-label">Token count</span>
+                <strong id="cfg-token-count-metric">-</strong>
+              </article>
+            </section>
+
+            <section class="stage-grid one-up">
+              <article class="surface-panel">
+                <header class="surface-header">
+                  <div>
+                    <p class="surface-kicker">Tree view</p>
+                    <h3>Parse tree</h3>
+                  </div>
+                </header>
+                <div id="cfg-tree-canvas" class="surface-body tree-surface"></div>
+              </article>
+            </section>
+
+            <section class="stage-grid two-up">
+              <article class="surface-panel">
+                <header class="surface-header">
+                  <div>
+                    <p class="surface-kicker">Leftmost derivation</p>
+                    <h3>LMD simulator</h3>
+                  </div>
+                </header>
+                <div id="cfg-left-derivation" class="surface-body data-surface"></div>
+              </article>
+
+              <article class="surface-panel">
+                <header class="surface-header">
+                  <div>
+                    <p class="surface-kicker">Rightmost derivation</p>
+                    <h3>RMD simulator</h3>
+                  </div>
+                </header>
+                <div id="cfg-right-derivation" class="surface-body data-surface"></div>
+              </article>
+            </section>
+
+            <section class="stage-grid two-up">
+              <article class="surface-panel">
+                <header class="surface-header">
+                  <div>
+                    <p class="surface-kicker">Grammar summary</p>
+                    <h3>Productions</h3>
+                  </div>
+                </header>
+                <div id="cfg-productions" class="surface-body data-surface"></div>
+              </article>
+
+              <article class="surface-panel">
+                <header class="surface-header">
+                  <div>
+                    <p class="surface-kicker">Notes</p>
+                    <h3>Parser output</h3>
+                  </div>
+                </header>
+                <div id="cfg-notes" class="surface-body data-surface"></div>
+              </article>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <section class="lab-stage" data-stage="pda">
+        <div class="workspace-grid">
+          <aside class="workspace-sidebar">
+            <section class="sidebar-panel">
+              <div class="panel-heading">
+                <h2>PDA Simulator</h2>
+                <p>Edit JSON transitions, then trace the accepting path.</p>
+              </div>
+              <label class="field-label" for="pda-input">Input</label>
+              <div class="inline-field">
+                <input type="text" id="pda-input" value="aaabbb" placeholder="Input string" />
+                <button id="btn-pda-run" type="button">Simulate</button>
+              </div>
+              <label class="field-label" for="pda-definition">Machine definition</label>
+              <textarea id="pda-definition" class="definition-editor tall" spellcheck="false"></textarea>
+            </section>
+
+            <section class="sidebar-panel">
+              <div class="panel-heading">
+                <h2>Examples</h2>
+                <p>Stack machines for common CFL languages.</p>
+              </div>
+              <div id="pda-example-list" class="example-list"></div>
+            </section>
+          </aside>
+
+          <div class="workspace-main">
+            <section class="metric-row">
+              <article class="metric-card">
+                <span class="metric-label">Status</span>
+                <strong id="pda-status-metric">-</strong>
+              </article>
+              <article class="metric-card">
+                <span class="metric-label">Configurations</span>
+                <strong id="pda-configs-metric">-</strong>
+              </article>
+              <article class="metric-card">
+                <span class="metric-label">Trace steps</span>
+                <strong id="pda-steps-metric">-</strong>
+              </article>
+              <article class="metric-card">
+                <span class="metric-label">Final state</span>
+                <strong id="pda-final-metric">-</strong>
+              </article>
+            </section>
+
+            <section class="stage-grid two-up">
+              <article class="surface-panel">
+                <header class="surface-header wide">
+                  <div>
+                    <p class="surface-kicker">Machine graph</p>
+                    <h3>PDA automaton</h3>
+                  </div>
+                  <div class="slider-cluster compact">
+                    <button id="pda-step-prev" type="button">Prev</button>
+                    <button id="pda-step-play" type="button">Play</button>
+                    <button id="pda-step-next" type="button">Next</button>
+                    <span id="pda-step-label">0 / 0</span>
+                  </div>
+                </header>
+                <div id="pda-graph" class="surface-body graph-surface"></div>
+              </article>
+
+              <article class="surface-panel">
+                <header class="surface-header">
+                  <div>
+                    <p class="surface-kicker">Computation trace</p>
+                    <h3>Configuration walk</h3>
+                  </div>
+                </header>
+                <div id="pda-trace" class="surface-body data-surface"></div>
+              </article>
+
+              <article class="surface-panel">
+                <header class="surface-header">
+                  <div>
+                    <p class="surface-kicker">Machine overview</p>
+                    <h3>Summary</h3>
+                  </div>
+                </header>
+                <div id="pda-summary" class="surface-body data-surface"></div>
+              </article>
+            </section>
+
+            <section class="stage-grid one-up">
+              <article class="surface-panel">
+                <header class="surface-header">
+                  <div>
+                    <p class="surface-kicker">Transition relation</p>
+                    <h3>Transitions</h3>
+                  </div>
+                </header>
+                <div id="pda-transitions" class="surface-body data-surface"></div>
+              </article>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <section class="lab-stage" data-stage="tm">
+        <div class="workspace-grid">
+          <aside class="workspace-sidebar">
+            <section class="sidebar-panel">
+              <div class="panel-heading">
+                <h2>Turing Machine</h2>
+                <p>Edit a deterministic one-tape machine and scrub through its trace.</p>
+              </div>
+              <label class="field-label" for="tm-input">Input</label>
+              <div class="inline-field">
+                <input type="text" id="tm-input" value="1011" placeholder="Input tape contents" />
+                <button id="btn-tm-run" type="button">Simulate</button>
+              </div>
+              <label class="field-label" for="tm-definition">Machine definition</label>
+              <textarea id="tm-definition" class="definition-editor tall" spellcheck="false"></textarea>
+            </section>
+
+            <section class="sidebar-panel">
+              <div class="panel-heading">
+                <h2>Examples</h2>
+                <p>Preset transducers and deciders for tape traces.</p>
+              </div>
+              <div id="tm-example-list" class="example-list"></div>
+            </section>
+          </aside>
+
+          <div class="workspace-main">
+            <section class="metric-row">
+              <article class="metric-card">
+                <span class="metric-label">Status</span>
+                <strong id="tm-status-metric">-</strong>
+              </article>
+              <article class="metric-card">
+                <span class="metric-label">Executed steps</span>
+                <strong id="tm-steps-metric">-</strong>
+              </article>
+              <article class="metric-card">
+                <span class="metric-label">Head position</span>
+                <strong id="tm-head-metric">-</strong>
+              </article>
+              <article class="metric-card">
+                <span class="metric-label">Final state</span>
+                <strong id="tm-final-metric">-</strong>
+              </article>
+            </section>
+
+            <section class="stage-grid two-up">
+              <article class="surface-panel">
+                <header class="surface-header wide">
+                  <div>
+                    <p class="surface-kicker">State graph</p>
+                    <h3>Turing machine control</h3>
+                  </div>
+                  <div class="slider-cluster compact">
+                    <button id="tm-step-prev" type="button">Prev</button>
+                    <button id="tm-step-play" type="button">Play</button>
+                    <button id="tm-step-next" type="button">Next</button>
+                    <button id="tm-step-reset" type="button">Reset</button>
+                  </div>
+                </header>
+                <div id="tm-graph" class="surface-body graph-surface"></div>
+              </article>
+
+              <article class="surface-panel">
+                <header class="surface-header wide">
+                  <div>
+                    <p class="surface-kicker">Tape view</p>
+                    <h3>Selected computation step</h3>
+                  </div>
+                  <div class="slider-cluster">
+                    <label for="tm-step-slider">Step</label>
+                    <input id="tm-step-slider" type="range" min="0" max="0" value="0" />
+                    <span id="tm-step-label">0 / 0</span>
+                  </div>
+                </header>
+                <div id="tm-tape" class="surface-body tape-surface"></div>
+              </article>
+            </section>
+
+            <section class="stage-grid two-up">
+              <article class="surface-panel">
+                <header class="surface-header">
+                  <div>
+                    <p class="surface-kicker">Execution summary</p>
+                    <h3>Machine notes</h3>
+                  </div>
+                </header>
+                <div id="tm-summary" class="surface-body data-surface"></div>
+              </article>
+
+              <article class="surface-panel">
+                <header class="surface-header">
+                  <div>
+                    <p class="surface-kicker">Transition relation</p>
+                    <h3>Transitions</h3>
+                  </div>
+                </header>
+                <div id="tm-transitions" class="surface-body data-surface"></div>
+              </article>
+            </section>
+
+            <section class="stage-grid one-up">
+              <article class="surface-panel">
+                <header class="surface-header">
+                  <div>
+                    <p class="surface-kicker">Instruction trace</p>
+                    <h3>Executed transitions</h3>
+                  </div>
+                </header>
+                <div id="tm-trace" class="surface-body data-surface"></div>
+              </article>
+            </section>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

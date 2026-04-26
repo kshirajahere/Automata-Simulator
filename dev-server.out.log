@@ -1,0 +1,198 @@
+
+> regex-automata-visualizer@0.1.0 dev
+> concurrently -n api,web -c cyan,green "npm:dev:api" "npm:dev:web"
+
+[api] 
+[api] > regex-automata-visualizer@0.1.0 dev:api
+[api] > tsx watch src/server.ts
+[api] 
+[web] 
+[web] > regex-automata-visualizer@0.1.0 dev:web
+[web] > vite --host 127.0.0.1 --port 5173
+[web] 
+[web] 
+[web]   [32m[1mVITE[22m v7.3.2[39m  [2mready in [0m[1m444[22m[2m[0m ms[22m
+[web] 
+[web]   [32m➜[39m  [1mLocal[22m:   [36mhttp://127.0.0.1:[1m5173[22m/[39m
+[api] Regex automata API listening on http://127.0.0.1:3001
+[web] [2m4:32:57 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mindex.html[22m
+[web] [2m4:32:57 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/client/styles.css[22m
+[api] 4:34:12 PM [tsx] change in ./src\automata\parser.ts Restarting...
+[api] cRegex automata API listening on http://127.0.0.1:3001
+[web] [2m4:34:33 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/client/main.ts[22m
+[api] 4:35:12 PM [tsx] change in ./src\automata\pipeline.ts Restarting...
+[api] cRegex automata API listening on http://127.0.0.1:3001
+[api] 4:35:20 PM [tsx] change in ./src\server.ts Restarting...
+[api] cRegex automata API listening on http://127.0.0.1:3001
+[web] [2m4:35:21 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/client/main.ts[22m
+[web] [2m4:35:21 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Transform failed with 1 error:
+[web] C:/Users/sayal/OneDrive/Documents/New project/src/client/main.ts:286:29: ERROR: Syntax error "`"
+[web]   Plugin: [35mvite:esbuild[39m
+[web]   File: [36mC:/Users/sayal/OneDrive/Documents/New project/src/client/main.ts[39m:286:29
+[web] [33m  
+[web]   [33mSyntax error "`"[33m
+[web]   284 |    
+[web]   285 |    if (total === 0) {
+[web]   286 |      simOutput.textContent = \`Empty input. \${currentSimulation.reason}\`;
+[web]       |                               ^
+[web]   287 |      return;
+[web]   288 |    }
+[web]   [39m
+[web] [2m4:35:21 PM[22m [31m[1m[vite][22m[39m [31mInternal server error: Transform failed with 1 error:
+[web] C:/Users/sayal/OneDrive/Documents/New project/src/client/main.ts:286:29: ERROR: Syntax error "`"[39m
+[web]   Plugin: [35mvite:esbuild[39m
+[web]   File: [36mC:/Users/sayal/OneDrive/Documents/New project/src/client/main.ts[39m:286:29
+[web] [33m  
+[web]   [33mSyntax error "`"[33m
+[web]   284 |    
+[web]   285 |    if (total === 0) {
+[web]   286 |      simOutput.textContent = \`Empty input. \${currentSimulation.reason}\`;
+[web]       |                               ^
+[web]   287 |      return;
+[web]   288 |    }
+[web]   [39m
+[web]       at failureErrorWithLog (C:\Users\sayal\OneDrive\Documents\New project\node_modules\esbuild\lib\main.js:1748:15)
+[web]       at C:\Users\sayal\OneDrive\Documents\New project\node_modules\esbuild\lib\main.js:1017:50
+[web]       at responseCallbacks.<computed> (C:\Users\sayal\OneDrive\Documents\New project\node_modules\esbuild\lib\main.js:884:9)
+[web]       at handleIncomingPacket (C:\Users\sayal\OneDrive\Documents\New project\node_modules\esbuild\lib\main.js:939:12)
+[web]       at Socket.readFromStdout (C:\Users\sayal\OneDrive\Documents\New project\node_modules\esbuild\lib\main.js:862:7)
+[web]       at Socket.emit (node:events:509:28)
+[web]       at addChunk (node:internal/streams/readable:563:12)
+[web]       at readableAddChunkPushByteMode (node:internal/streams/readable:514:3)
+[web]       at Readable.push (node:internal/streams/readable:394:5)
+[web]       at Pipe.onStreamRead (node:internal/stream_base_commons:189:23)
+[api] 4:35:27 PM [tsx] change in ./src\automata\minimize.ts Restarting...
+[api] cRegex automata API listening on http://127.0.0.1:3001
+[web] [2m4:35:39 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/client/main.ts[22m
+[web] [2m4:35:51 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/client/main.ts[22m
+[web] [2m4:37:04 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/client/main.ts[22m
+[web] [2m4:37:22 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/client/main.ts[22m
+[web] [2m4:37:27 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/client/main.ts[22m
+[web] [2m4:37:45 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mindex.html[22m
+[web] [33m
+[web] Unable to parse HTML; parse5 error code missing-whitespace-between-attributes
+[web]  at C:/Users/sayal/OneDrive/Documents/New project/index.html:69:27
+[web] 67 |                <input type="text" id="compare-regex-input" placeholder="Compare against...
+[web] 68 |  
+[web] 69 |            <section class="panel">
+[web]    |                            ^
+[web] 70 |              <header><h2>Simulation Mode</h2></header>
+[web] 71 |              <div class="control-group">[39m
+[web] [33m
+[web] Unable to parse HTML; parse5 error code unexpected-character-in-attribute-name
+[web]  at C:/Users/sayal/OneDrive/Documents/New project/index.html:69:32
+[web] 67 |                <input type="text" id="compare-regex-input" placeholder="Compare against...
+[web] 68 |  
+[web] 69 |            <section class="panel">
+[web]    |                                 ^
+[web] 70 |              <header><h2>Simulation Mode</h2></header>
+[web] 71 |              <div class="control-group">[39m
+[web] [2m4:37:55 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mindex.html[22m
+[web] [2m4:38:07 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/client/styles.css[22m
+[web] [2m4:38:18 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mindex.html[22m
+[web] [2m4:38:22 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/client/main.ts[22m
+[web] [2m4:40:34 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/client/main.ts[22m
+[web] [2m4:40:47 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/client/main.ts[22m
+[web] [2m4:41:14 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/client/styles.css[22m
+[web] [2m4:41:43 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/client/main.ts[22m
+[web] [2m4:45:38 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/client/main.ts[22m
+[web] [2m4:45:50 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/client/styles.css[22m
+[api] 4:47:10 PM [tsx] change in ./src\automata\analysis.ts Restarting...
+[api] cRegex automata API listening on http://127.0.0.1:3001
+[api] 4:47:13 PM [tsx] change in ./src\automata\analysis.ts Restarting...
+[api] cRegex automata API listening on http://127.0.0.1:3001
+[api] 4:48:01 PM [tsx] change in ./src\automata\pipeline.ts Rerunning...
+[api] cRegex automata API listening on http://127.0.0.1:3001
+[api] 4:48:08 PM [tsx] change in ./src\server.ts Restarting...
+[api] cRegex automata API listening on http://127.0.0.1:3001
+[web] [2m4:48:23 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mindex.html[22m
+[web] [2m4:48:43 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/client/main.ts[22m
+[web] [2m4:48:53 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/client/styles.css[22m
+[web] [2m4:49:58 PM[22m [36m[1m[vite][22m[39m changed tsconfig file detected: C:/Users/sayal/OneDrive/Documents/New project/tsconfig.json - Clearing cache and forcing full-reload to ensure TypeScript is compiled with updated config values.
+[api] 5:03:26 PM [tsx] unlink in ./src\automata\analysis.ts Rerunning...
+[api] c
+[api] node:internal/modules/run_main:107
+[api]     triggerUncaughtException(
+[api]     ^
+[api] Error [ERR_MODULE_NOT_FOUND]: Cannot find module 'C:\Users\sayal\OneDrive\Documents\New project\src\automata\analysis' imported from C:\Users\sayal\OneDrive\Documents\New project\src\automata\pipeline.ts
+[api]     at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+[api]     at moduleResolve (node:internal/modules/esm/resolve:861:10)
+[api]     at defaultResolve (node:internal/modules/esm/resolve:988:11)
+[api]     at nextResolve (node:internal/modules/esm/hooks:785:28)
+[api]     at resolveBase (file:///C:/Users/sayal/OneDrive/Documents/New%20project/node_modules/tsx/dist/esm/index.mjs?1777203206934:2:3744)
+[api]     at async resolveDirectory (file:///C:/Users/sayal/OneDrive/Documents/New%20project/node_modules/tsx/dist/esm/index.mjs?1777203206934:2:4237)
+[api]     at async resolve (file:///C:/Users/sayal/OneDrive/Documents/New%20project/node_modules/tsx/dist/esm/index.mjs?1777203206934:2:5355)
+[api]     at async nextResolve (node:internal/modules/esm/hooks:785:22)
+[api]     at async AsyncLoaderHooksOnLoaderHookWorker.resolve (node:internal/modules/esm/hooks:269:24)
+[api]     at async handleMessage (node:internal/modules/esm/worker:251:18) {
+[api]   code: 'ERR_MODULE_NOT_FOUND',
+[api]   url: 'file:///C:/Users/sayal/OneDrive/Documents/New%20project/src/automata/analysis'
+[api] }
+[api] 
+[api] Node.js v24.15.0
+[api] 5:04:17 PM [tsx] change in ./src\automata\analysis.ts Rerunning...
+[api] cRegex automata API listening on http://127.0.0.1:3001
+[api] 5:06:10 PM [tsx] change in ./src\automata\pipeline.ts Rerunning...
+[api] cRegex automata API listening on http://127.0.0.1:3001
+[api] 5:06:31 PM [tsx] change in ./src\server.ts Rerunning...
+[api] cRegex automata API listening on http://127.0.0.1:3001
+[api] 5:07:13 PM [tsx] change in ./src\automata\certificates.ts Restarting...
+[api] cRegex automata API listening on http://127.0.0.1:3001
+[web] [2m5:08:51 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mindex.html[22m
+[web] [2m5:09:43 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mindex.html[22m
+[web] [2m5:09:52 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/client/styles.css[22m
+[web] [2m5:11:16 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/client/styles.css[22m
+[web] [2m5:12:02 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/client/main.ts[22m
+[web] [2m5:18:59 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/client/main.ts[22m
+[web] [2m5:21:07 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/client/main.ts[22m
+[web] [2m5:21:07 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/client/main.ts[22m
+[web] [2m5:21:07 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/client/styles.css[22m
+[web] [2m5:21:07 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/client/styles.css[22m
+[web] [2m5:21:08 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mindex.html[22m
+[web] [2m5:21:08 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mindex.html[22m
+[api] 5:21:09 PM [tsx] unlink in ./src\automata\certificates.ts Rerunning...
+[api] cRegex automata API listening on http://127.0.0.1:3001
+[api] 5:21:09 PM [tsx] unlink in ./src\server.ts Restarting...
+[api] c5:21:10 PM [tsx] unlink in ./src\automata\pipeline.ts Restarting...
+[api] cRegex automata API listening on http://127.0.0.1:3001
+[api] 5:21:10 PM [tsx] unlink in ./src\automata\experiments.ts Restarting...
+[api] c5:21:11 PM [tsx] unlink in ./src\automata\certificates.ts Restarting...
+[api] c5:21:11 PM [tsx] change in ./src\automata\analysis.ts Restarting...
+[api] c5:21:12 PM [tsx] unlink in ./src\automata\language.ts Restarting...
+[api] cRegex automata API listening on http://127.0.0.1:3001
+[api] 5:30:22 PM [tsx] change in ./src\automata\pipeline.ts Restarting...
+[api] cRegex automata API listening on http://127.0.0.1:3001
+[api] 5:30:45 PM [tsx] change in ./src\server.ts Rerunning...
+[api] cRegex automata API listening on http://127.0.0.1:3001
+[api] 5:31:52 PM [tsx] change in ./src\automata\cfg.ts Restarting...
+[api] cRegex automata API listening on http://127.0.0.1:3001
+[web] [2m5:33:37 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mindex.html[22m
+[web] [2m5:35:16 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mindex.html[22m
+[web] [2m5:35:25 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/client/styles.css[22m
+[web] [2m5:37:22 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/client/styles.css[22m
+[web] [2m5:39:02 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/client/main.ts[22m
+[web] [2m5:44:26 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/client/main.ts[22m
+[web] [2m5:44:55 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/client/main.ts[22m
+[api] 6:55:38 PM [tsx] change in ./src\automata\analysis.ts Rerunning...
+[api] cRegex automata API listening on http://127.0.0.1:3001
+[api] 7:07:37 PM [tsx] change in ./src\automata\formalTypes.ts Rerunning...
+[api] cRegex automata API listening on http://127.0.0.1:3001
+[api] 7:07:44 PM [tsx] change in ./src\automata\cfg.ts Rerunning...
+[api] cRegex automata API listening on http://127.0.0.1:3001
+[web] [2m7:08:20 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mindex.html[22m
+[web] [2m7:08:42 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/client/main.ts[22m
+[web] [2m7:08:58 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/client/main.ts[22m
+[web] [2m7:09:04 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/client/main.ts[22m
+[web] [2m7:09:13 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/client/main.ts[22m
+[web] [2m7:09:27 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/client/main.ts[22m
+[web] [2m7:10:13 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/client/main.ts[22m
+[web] [2m7:10:29 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/client/main.ts[22m
+[web] [2m7:11:06 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/client/main.ts[22m
+[web] [2m7:11:41 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/client/main.ts[22m
+[web] [2m7:11:54 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/client/main.ts[22m
+[web] [2m7:12:05 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/client/main.ts[22m
+[web] [2m7:12:15 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/client/main.ts[22m
+[web] [2m7:12:25 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/client/main.ts[22m
+[web] [2m7:12:43 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/client/styles.css[22m
+[web] [2m7:13:01 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/client/main.ts[22m
+[web] [2m7:13:09 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/client/main.ts[22m
