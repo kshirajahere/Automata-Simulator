@@ -1,20 +1,5 @@
 import { Buffer } from "node:buffer";
 import type { IncomingMessage, ServerResponse } from "node:http";
-import { FormalDefinitionError } from "../src/automata/formalTypes";
-import {
-  cfgExamples,
-  compareRegexes,
-  convertRegex,
-  examples,
-  parseCfgInput,
-  pdaExamples,
-  simulatePdaInput,
-  simulateRegex,
-  simulateRegexBatch,
-  simulateTuringInput,
-  turingExamples
-} from "../src/automata/pipeline";
-import { RegexSyntaxError } from "../src/automata/parser";
 
 type ApiRequest = IncomingMessage & {
   body?: unknown;
@@ -23,24 +8,42 @@ type ApiRequest = IncomingMessage & {
 
 type JsonObject = Record<string, unknown>;
 
-export function handleHealth(_request: ApiRequest, response: ServerResponse): void {
-  sendJson(response, 200, { ok: true, service: "regex-automata-visualizer" });
+type AutomataRuntime = Awaited<ReturnType<typeof loadAutomataRuntime>>;
+
+export async function handleExamples(_request: ApiRequest, response: ServerResponse): Promise<void> {
+  try {
+    const runtime = await loadAutomataRuntime();
+    sendJson(response, 200, { examples: runtime.examples });
+  } catch (error) {
+    sendApiError(response, error);
+  }
 }
 
-export function handleExamples(_request: ApiRequest, response: ServerResponse): void {
-  sendJson(response, 200, { examples });
+export async function handleCfgExamples(_request: ApiRequest, response: ServerResponse): Promise<void> {
+  try {
+    const runtime = await loadAutomataRuntime();
+    sendJson(response, 200, { examples: runtime.cfgExamples });
+  } catch (error) {
+    sendApiError(response, error);
+  }
 }
 
-export function handleCfgExamples(_request: ApiRequest, response: ServerResponse): void {
-  sendJson(response, 200, { examples: cfgExamples });
+export async function handlePdaExamples(_request: ApiRequest, response: ServerResponse): Promise<void> {
+  try {
+    const runtime = await loadAutomataRuntime();
+    sendJson(response, 200, { examples: runtime.pdaExamples });
+  } catch (error) {
+    sendApiError(response, error);
+  }
 }
 
-export function handlePdaExamples(_request: ApiRequest, response: ServerResponse): void {
-  sendJson(response, 200, { examples: pdaExamples });
-}
-
-export function handleTuringExamples(_request: ApiRequest, response: ServerResponse): void {
-  sendJson(response, 200, { examples: turingExamples });
+export async function handleTuringExamples(_request: ApiRequest, response: ServerResponse): Promise<void> {
+  try {
+    const runtime = await loadAutomataRuntime();
+    sendJson(response, 200, { examples: runtime.turingExamples });
+  } catch (error) {
+    sendApiError(response, error);
+  }
 }
 
 export async function handleConvert(request: ApiRequest, response: ServerResponse): Promise<void> {
@@ -49,6 +52,7 @@ export async function handleConvert(request: ApiRequest, response: ServerRespons
   }
 
   try {
+    const runtime = await loadAutomataRuntime();
     const body = await readJsonBody(request);
     const regex = body.regex;
 
@@ -62,7 +66,7 @@ export async function handleConvert(request: ApiRequest, response: ServerRespons
       return;
     }
 
-    sendJson(response, 200, convertRegex(regex));
+    sendJson(response, 200, runtime.convertRegex(regex));
   } catch (error) {
     sendApiError(response, error);
   }
@@ -74,6 +78,7 @@ export async function handleSimulate(request: ApiRequest, response: ServerRespon
   }
 
   try {
+    const runtime = await loadAutomataRuntime();
     const body = await readJsonBody(request);
     const regex = body.regex;
     const input = body.input;
@@ -93,7 +98,7 @@ export async function handleSimulate(request: ApiRequest, response: ServerRespon
       return;
     }
 
-    sendJson(response, 200, simulateRegex(regex, input));
+    sendJson(response, 200, runtime.simulateRegex(regex, input));
   } catch (error) {
     sendApiError(response, error);
   }
@@ -105,6 +110,7 @@ export async function handleSimulateBatch(request: ApiRequest, response: ServerR
   }
 
   try {
+    const runtime = await loadAutomataRuntime();
     const body = await readJsonBody(request);
     const regex = body.regex;
     const inputs = body.inputs;
@@ -134,7 +140,7 @@ export async function handleSimulateBatch(request: ApiRequest, response: ServerR
       return;
     }
 
-    sendJson(response, 200, simulateRegexBatch(regex, inputs));
+    sendJson(response, 200, runtime.simulateRegexBatch(regex, inputs));
   } catch (error) {
     sendApiError(response, error);
   }
@@ -146,6 +152,7 @@ export async function handleCompare(request: ApiRequest, response: ServerRespons
   }
 
   try {
+    const runtime = await loadAutomataRuntime();
     const body = await readJsonBody(request);
     const leftRegex = body.leftRegex;
     const rightRegex = body.rightRegex;
@@ -165,7 +172,7 @@ export async function handleCompare(request: ApiRequest, response: ServerRespons
       return;
     }
 
-    sendJson(response, 200, compareRegexes(leftRegex, rightRegex));
+    sendJson(response, 200, runtime.compareRegexes(leftRegex, rightRegex));
   } catch (error) {
     sendApiError(response, error);
   }
@@ -177,6 +184,7 @@ export async function handleCfgParse(request: ApiRequest, response: ServerRespon
   }
 
   try {
+    const runtime = await loadAutomataRuntime();
     const body = await readJsonBody(request);
     const grammar = body.grammar;
     const input = body.input;
@@ -196,7 +204,7 @@ export async function handleCfgParse(request: ApiRequest, response: ServerRespon
       return;
     }
 
-    sendJson(response, 200, parseCfgInput(grammar, input));
+    sendJson(response, 200, runtime.parseCfgInput(grammar, input));
   } catch (error) {
     sendApiError(response, error);
   }
@@ -208,6 +216,7 @@ export async function handlePdaSimulate(request: ApiRequest, response: ServerRes
   }
 
   try {
+    const runtime = await loadAutomataRuntime();
     const body = await readJsonBody(request);
     const definition = body.definition;
     const input = body.input;
@@ -227,7 +236,7 @@ export async function handlePdaSimulate(request: ApiRequest, response: ServerRes
       return;
     }
 
-    sendJson(response, 200, simulatePdaInput(definition, input));
+    sendJson(response, 200, runtime.simulatePdaInput(definition, input));
   } catch (error) {
     sendApiError(response, error);
   }
@@ -239,6 +248,7 @@ export async function handleTuringSimulate(request: ApiRequest, response: Server
   }
 
   try {
+    const runtime = await loadAutomataRuntime();
     const body = await readJsonBody(request);
     const definition = body.definition;
     const input = body.input;
@@ -260,7 +270,7 @@ export async function handleTuringSimulate(request: ApiRequest, response: Server
       return;
     }
 
-    sendJson(response, 200, simulateTuringInput(definition, input));
+    sendJson(response, 200, runtime.simulateTuringInput(definition, input));
   } catch (error) {
     sendApiError(response, error);
   }
@@ -314,13 +324,37 @@ function isJsonObject(value: unknown): value is JsonObject {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
-function sendApiError(response: ServerResponse, error: unknown): void {
+async function loadAutomataRuntime() {
+  const [pipelineModule, parserModule, formalTypesModule] = await Promise.all([
+    import("../src/automata/pipeline"),
+    import("../src/automata/parser"),
+    import("../src/automata/formalTypes")
+  ]);
+
+  return {
+    examples: pipelineModule.examples,
+    cfgExamples: pipelineModule.cfgExamples,
+    pdaExamples: pipelineModule.pdaExamples,
+    turingExamples: pipelineModule.turingExamples,
+    convertRegex: pipelineModule.convertRegex,
+    simulateRegex: pipelineModule.simulateRegex,
+    simulateRegexBatch: pipelineModule.simulateRegexBatch,
+    compareRegexes: pipelineModule.compareRegexes,
+    parseCfgInput: pipelineModule.parseCfgInput,
+    simulatePdaInput: pipelineModule.simulatePdaInput,
+    simulateTuringInput: pipelineModule.simulateTuringInput,
+    RegexSyntaxError: parserModule.RegexSyntaxError,
+    FormalDefinitionError: formalTypesModule.FormalDefinitionError
+  };
+}
+
+function sendApiError(response: ServerResponse, error: unknown, runtime?: Pick<AutomataRuntime, "RegexSyntaxError" | "FormalDefinitionError">): void {
   if (error instanceof SyntaxError) {
     sendJson(response, 400, { error: "Request body must be valid JSON." });
     return;
   }
 
-  if (error instanceof RegexSyntaxError) {
+  if (runtime !== undefined && error instanceof runtime.RegexSyntaxError) {
     sendJson(response, 400, {
       error: error.message,
       position: error.position
@@ -328,13 +362,17 @@ function sendApiError(response: ServerResponse, error: unknown): void {
     return;
   }
 
-  if (error instanceof FormalDefinitionError) {
+  if (runtime !== undefined && error instanceof runtime.FormalDefinitionError) {
     sendJson(response, 400, { error: error.message });
     return;
   }
 
+  const message = error instanceof Error ? error.message : String(error);
   console.error(error);
-  sendJson(response, 500, { error: "Internal conversion error." });
+  sendJson(response, 500, {
+    error: "Internal conversion error.",
+    detail: message
+  });
 }
 
 function sendJson(response: ServerResponse, status: number, payload: unknown): void {
