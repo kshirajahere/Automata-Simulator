@@ -196,3 +196,7 @@
 [web] [2m7:12:43 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/client/styles.css[22m
 [web] [2m7:13:01 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/client/main.ts[22m
 [web] [2m7:13:09 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/client/main.ts[22m
+[web] [2m7:28:56 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/client/main.ts[22m
+[web] [2m7:28:56 PM[22m [36m[1m[vite][22m[39m changed tsconfig file detected: C:/Users/sayal/OneDrive/Documents/New project/tsconfig.json - Clearing cache and forcing full-reload to ensure TypeScript is compiled with updated config values.
+[api] 7:28:56 PM [tsx] change in ./src\server.ts Restarting...
+[api] cRegex automata API listening on http://127.0.0.1:3001

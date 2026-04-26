@@ -2309,7 +2309,7 @@ function inlineStyledSvg(svg: SVGSVGElement): SVGSVGElement {
 
 async function fetchJson<T>(url: string): Promise<T> {
   const response = await fetch(url);
-  const payload = (await response.json()) as T & { error?: string };
+  const payload = await readApiPayload<T>(response);
   if (!response.ok) {
     throw new Error(payload.error ?? `Request failed: ${response.status}`);
   }
@@ -2323,12 +2323,26 @@ async function postJson<T>(url: string, body: unknown): Promise<T> {
     body: JSON.stringify(body)
   });
 
-  const payload = (await response.json()) as T & { error?: string };
+  const payload = await readApiPayload<T>(response);
   if (!response.ok) {
     throw new Error(payload.error ?? `Request failed: ${response.status}`);
   }
 
   return payload;
+}
+
+async function readApiPayload<T>(response: Response): Promise<T & { error?: string }> {
+  const contentType = response.headers.get("content-type") ?? "";
+  if (contentType.includes("application/json")) {
+    return (await response.json()) as T & { error?: string };
+  }
+
+  const message = (await response.text()).trim();
+  if (message.length > 0) {
+    throw new Error(message);
+  }
+
+  throw new Error(`API returned ${contentType || "a non-JSON response"} instead of JSON.`);
 }
 
 function buildInitialTapeWindow(result: TuringSimulationResult) {

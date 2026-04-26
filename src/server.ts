@@ -1,3 +1,5 @@
+import { resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import cors from "cors";
 import express from "express";
 import { FormalDefinitionError } from "./automata/formalTypes";
@@ -230,9 +232,13 @@ app.post("/api/turing/simulate", (request, response) => {
   }
 });
 
-app.listen(port, "127.0.0.1", () => {
-  console.log(`Regex automata API listening on http://127.0.0.1:${port}`);
-});
+export default app;
+
+if (isDirectExecution()) {
+  app.listen(port, "127.0.0.1", () => {
+    console.log(`Regex automata API listening on http://127.0.0.1:${port}`);
+  });
+}
 
 function sendConversionError(response: express.Response, error: unknown): void {
   if (error instanceof RegexSyntaxError) {
@@ -250,4 +256,8 @@ function sendConversionError(response: express.Response, error: unknown): void {
 
   console.error(error);
   response.status(500).json({ error: "Internal conversion error." });
+}
+
+function isDirectExecution(): boolean {
+  return process.argv[1] !== undefined && resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 }
