@@ -4,7 +4,7 @@ A browser-based Theory of Computation laboratory for inspectable executions of r
 
 **Live demonstration:** https://simulating-automata.vercel.app
 
-![Regex conversion workspace](regex-trace-ui.png)
+![DFA export for the shipped regular-expression workspace](tool-dfa.png)
 
 ## Capabilities
 
