@@ -77,5 +77,6 @@ src/client/main.ts           D3 browser interface
 tests/automata.test.ts       functional correctness checks
 tests/traceAudit.test.ts     independent conversion-trace audit
 tests/pdaTraceAudit.test.ts  independent PDA-trace audit
+tests/cfgTraceAudit.test.ts  independent CFG-derivation audit
 scripts/                     reproducible evaluation scripts
 ```
