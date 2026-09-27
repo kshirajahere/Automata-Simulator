@@ -1,131 +1,81 @@
-# Regex to NFA to DFA Visualizer
+# Trace-Oriented Automata Laboratory
 
-Master-level Theory of Computation project that exposes the full conversion pipeline instead of only simulating a finished DFA.
+A browser-based Theory of Computation laboratory for inspectable executions of regular expressions and finite automata, context-free grammars, pushdown automata, and Turing machines.
 
-## What It Does
+**Live demonstration:** https://simulating-automata.vercel.app
 
-- Parses a formal regex dialect into an AST.
-- Builds an epsilon-NFA with Thompson's construction.
-- Runs subset construction step by step.
-- Completes the DFA with a dead state when needed.
-- Minimizes the DFA with partition refinement.
-- Simulates input strings against the generated DFA.
-- Computes shortest accepted/rejected witnesses and bounded language samples.
-- Compares two regexes for language equivalence and returns a concrete counterexample when they differ.
-- Evaluates many candidate strings in one request with acceptance-rate summaries.
-- Serves conversion and simulation through a clean JSON API for a D3 frontend.
+![Regex conversion workspace](regex-trace-ui.png)
 
-## Regex Dialect
+## Capabilities
 
-Supported:
+- Parses a formal regular-expression dialect and constructs an epsilon-NFA using Thompson's construction.
+- Executes subset construction step by step, completes the DFA, and minimizes it by partition refinement.
+- Simulates DFA inputs, enumerates bounded language samples, and compares two DFAs exactly, returning a shortest separating witness when their languages differ.
+- Parses CFGs and returns derivation and parse-tree artifacts.
+- Simulates PDAs with explicit stack traces and Turing machines with tape-step traces.
+- Serves formal artifacts through JSON endpoints consumed by a D3 browser interface.
 
-- Literals: `a`, `b`, `1`, `_`
-- Escaped literals: `\+`, `\*`, `\|`, `\(`, `\)`
-- Shorthand classes: `\d`, `\w`, `\s`
-- Grouping: `(ab|cd)`
-- Union: `a|b`
-- Concatenation: implicit, as in `ab`
-- Postfix operators: `a*`, `a+`, `a?`
-- Character classes and ranges: `[abc]`, `[a-zA-Z0-9]`
-- Epsilon: `ε`
-- Empty language: `∅`
+## Reproducibility and evaluation
 
-Intentionally unsupported:
+The test suite contains the baseline functional checks plus independent audits of the conversion trace and a shipped PDA accepting trace:
 
-- Backreferences
-- Lookahead/lookbehind
-- Negated character classes
-- Negated shorthand classes (`\D`, `\W`, `\S`)
-- JavaScript-specific regex flags
+```bash
+npm test
+npm run typecheck
+npm run benchmark:family
+```
 
-Those features are not regular-language core constructs and would make the academic conversion less clear.
+`tests/traceAudit.test.ts` independently recomputes epsilon closures, subset-construction events, and partition-refinement signatures for a parameterized regular-language family. It also checks bounded behavior against JavaScript `RegExp` and exact equivalence between completed and minimized DFAs.
 
-## Run Locally
+`tests/pdaTraceAudit.test.ts` replays the shipped $a^n b^n$ accepting branch from its declared transition relation, checking input consumption, stack updates, and final acceptance.
+
+`scripts/familyTimingBenchmark.ts` runs the parameterized timing study. `scripts/publicCorpusBenchmark.ts` reproduces the public-corpus analysis from a local copy of AutomataTutor's `regular-expression.csv` pinned to the commit stated in the paper. The corpus itself is not redistributed here.
+
+## Run locally
 
 ```bash
 npm install
 npm run dev
 ```
 
-Then open:
+Then open the frontend at `http://127.0.0.1:5173`.
 
-- Frontend: `http://127.0.0.1:5173`
-- API: `http://127.0.0.1:3001/api/health`
-
-## Useful Commands
+## Commands
 
 ```bash
 npm test
 npm run typecheck
 npm run build
+npm run benchmark:family
+npx tsx scripts/publicCorpusBenchmark.ts /path/to/regular-expression.csv
 ```
 
 ## API
 
-### `POST /api/convert`
+| Endpoint | Purpose |
+| --- | --- |
+| `POST /api/convert` | Regex to AST, NFA, DFA, construction trace, minimized DFA, and language samples. |
+| `POST /api/simulate` | DFA execution for one input. |
+| `POST /api/simulate-batch` | Batch DFA execution and aggregate metrics. |
+| `POST /api/compare` | Exact regular-language comparison with a shortest witness if inequivalent. |
+| `POST /api/cfg/parse` | CFG parsing with derivation and parse tree. |
+| `POST /api/pda/simulate` | PDA execution with stack trace. |
+| `POST /api/turing/simulate` | Turing-machine execution with tape trace. |
 
-Request:
-
-```json
-{ "regex": "(a|b)*abb" }
-```
-
-Returns:
-
-- `ast`
-- `nfa`
-- `dfa`
-- `subsetConstruction.steps`
-- `minimizedDfa`
-- `minimization.rounds`
-- `insights.shortestAccepted`, `insights.shortestRejected`
-- `insights.acceptedExamples`, `insights.rejectedExamples`
-
-### `POST /api/simulate`
-
-Request:
-
-```json
-{ "regex": "(a|b)*abb", "input": "aaabb" }
-```
-
-Returns acceptance, final state, and the state path.
-
-### `POST /api/simulate-batch`
-
-Request:
-
-```json
-{ "regex": "(a|b)*abb", "inputs": ["abb", "aabb", "abba", ""] }
-```
-
-Returns one row per input plus aggregate totals and acceptance rate.
-
-### `POST /api/compare`
-
-Request:
-
-```json
-{ "leftRegex": "a*", "rightRegex": "a+" }
-```
-
-Returns:
-
-- `equivalent`: boolean
-- `checkedAlphabet`: combined alphabet used for formal comparison
-- `witness`: shortest counterexample if non-equivalent
-- `leftAcceptsWitness` / `rightAcceptsWitness`
-
-## Project Structure
+## Project structure
 
 ```text
-src/automata/parser.ts      recursive-descent regex parser
-src/automata/thompson.ts    Thompson epsilon-NFA builder
-src/automata/subset.ts      epsilon-closure subset construction
-src/automata/minimize.ts    DFA partition refinement
-src/automata/simulate.ts    DFA simulator
-src/automata/pipeline.ts    end-to-end conversion API
-src/server.ts               Express API server
-src/client/main.ts          lightweight D3 frontend shell
-tests/automata.test.ts      correctness checks
+src/automata/parser.ts       recursive-descent regex parser
+src/automata/thompson.ts     Thompson epsilon-NFA builder
+src/automata/subset.ts       epsilon-closure subset construction
+src/automata/minimize.ts     DFA partition refinement
+src/automata/analysis.ts     exact DFA-language comparison and witnesses
+src/automata/cfg.ts          CFG parsing and derivation artifacts
+src/automata/pda.ts          PDA simulation and stack traces
+src/automata/turing.ts       Turing-machine simulation and tape traces
+src/client/main.ts           D3 browser interface
+tests/automata.test.ts       functional correctness checks
+tests/traceAudit.test.ts     independent conversion-trace audit
+tests/pdaTraceAudit.test.ts  independent PDA-trace audit
+scripts/                     reproducible evaluation scripts
 ```
